@@ -7,6 +7,6 @@ namespace Semestralna_praca_VAII.Models
 {
     public class ShoppingHistory
     {
-        List<Purchase> purchases;
+        List<Purchase> purchases { get; set; }
     }
 }

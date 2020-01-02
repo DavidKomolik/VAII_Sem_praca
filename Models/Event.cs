@@ -9,16 +9,19 @@ namespace Semestralna_praca_VAII.Models
     public class Event
     {
         [Required]
-        public string name;
+        public string name { get; set; }
         [Required]
-        public DateTime date;
+        public DateTime date { get; set; }
         [Required]
-        public string description;
-        public int capacity;
+        public string description { get; set; }
+        public int capacity { get; set; }
         [Required]
-        public double price;
+        public double price { get; set; }
         [Required]
-        public string location;
+        public string location { get; set; }
+        [Required]
+        public int ID { get; set; }
+        public string imgPath { get; set; }
 
 
     }

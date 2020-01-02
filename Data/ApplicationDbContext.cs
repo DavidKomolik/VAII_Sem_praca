@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Semestralna_praca_VAII.Models;
 
 namespace Semestralna_praca_VAII.Data
 {
@@ -12,5 +13,7 @@ namespace Semestralna_praca_VAII.Data
             : base(options)
         {
         }
+        public virtual DbSet<Semestralna_praca_VAII.Models.Event> Event { get; set; }
+        
     }
 }
