@@ -23,7 +23,9 @@ namespace Semestralna_praca_VAII.Controllers
 
         public IActionResult Index()
         {
-            var eventList = _context.Event.ToList();
+            var eventList = _context.Event.OrderByDescending(a => a.isFeatured).ToList();
+
+           // var featured = _context.Event.Where(a => a.isFeatured == true).ToList(); 
 
             return View(eventList);
         }

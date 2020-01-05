@@ -22,6 +22,7 @@ namespace Semestralna_praca_VAII.Models
         [Required]
         public int ID { get; set; }
         public string imgPath { get; set; }
+        public bool isFeatured { get; set; }
 
 
     }
