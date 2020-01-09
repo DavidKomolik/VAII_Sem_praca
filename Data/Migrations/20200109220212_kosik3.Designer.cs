@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Semestralna_praca_VAII.Data;
 
 namespace Semestralna_praca_VAII.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200109220212_kosik3")]
+    partial class kosik3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,10 +84,6 @@ namespace Semestralna_praca_VAII.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -137,8 +135,6 @@ namespace Semestralna_praca_VAII.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -225,51 +221,6 @@ namespace Semestralna_praca_VAII.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Semestralna_praca_VAII.Models.Cart", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("Semestralna_praca_VAII.Models.CartItem", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CartID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ShoppingHistoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("addedItemID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("amount")
-                        .HasColumnType("int");
-
-                    b.Property<double>("price")
-                        .HasColumnType("float");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CartID");
-
-                    b.HasIndex("ShoppingHistoryID");
-
-                    b.HasIndex("addedItemID");
-
-                    b.ToTable("CartItem");
-                });
-
             modelBuilder.Entity("Semestralna_praca_VAII.Models.Event", b =>
                 {
                     b.Property<int>("ID")
@@ -307,25 +258,6 @@ namespace Semestralna_praca_VAII.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Event");
-                });
-
-            modelBuilder.Entity("Semestralna_praca_VAII.Models.ShoppingHistory", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ShoppingHistory");
-                });
-
-            modelBuilder.Entity("Semestralna_praca_VAII.Models.CommonUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.HasDiscriminator().HasValue("CommonUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -377,21 +309,6 @@ namespace Semestralna_praca_VAII.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Semestralna_praca_VAII.Models.CartItem", b =>
-                {
-                    b.HasOne("Semestralna_praca_VAII.Models.Cart", null)
-                        .WithMany("eventList")
-                        .HasForeignKey("CartID");
-
-                    b.HasOne("Semestralna_praca_VAII.Models.ShoppingHistory", null)
-                        .WithMany("purchases")
-                        .HasForeignKey("ShoppingHistoryID");
-
-                    b.HasOne("Semestralna_praca_VAII.Models.Event", "addedItem")
-                        .WithMany()
-                        .HasForeignKey("addedItemID");
                 });
 #pragma warning restore 612, 618
         }

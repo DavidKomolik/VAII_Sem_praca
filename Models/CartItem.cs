@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace Semestralna_praca_VAII.Models
 {
-    public class Purchase
+    public class CartItem
     {
-        public Event boughtEvent { get; set; }
+        public Event addedItem { get; set; }
         public int amount { get; set; }
         public double price { get; set; }
+        public int ID { get; set; }
     }
 }

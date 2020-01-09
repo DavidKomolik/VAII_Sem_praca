@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Semestralna_praca_VAII.Data;
 
 namespace Semestralna_praca_VAII.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200109221259_komplex")]
+    partial class komplex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,10 +252,10 @@ namespace Semestralna_praca_VAII.Data.Migrations
                     b.Property<int?>("ShoppingHistoryID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("addedItemID")
+                    b.Property<int>("amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("amount")
+                    b.Property<int?>("boughtEventID")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
@@ -265,7 +267,7 @@ namespace Semestralna_praca_VAII.Data.Migrations
 
                     b.HasIndex("ShoppingHistoryID");
 
-                    b.HasIndex("addedItemID");
+                    b.HasIndex("boughtEventID");
 
                     b.ToTable("CartItem");
                 });
@@ -389,9 +391,9 @@ namespace Semestralna_praca_VAII.Data.Migrations
                         .WithMany("purchases")
                         .HasForeignKey("ShoppingHistoryID");
 
-                    b.HasOne("Semestralna_praca_VAII.Models.Event", "addedItem")
+                    b.HasOne("Semestralna_praca_VAII.Models.Event", "boughtEvent")
                         .WithMany()
-                        .HasForeignKey("addedItemID");
+                        .HasForeignKey("boughtEventID");
                 });
 #pragma warning restore 612, 618
         }

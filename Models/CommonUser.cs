@@ -8,7 +8,8 @@ namespace Semestralna_praca_VAII.Models
 {
     public class CommonUser : IdentityUser
     {
-        
+        public Cart userCart;
+        public ShoppingHistory shoppingHistory;
 
     }
 }

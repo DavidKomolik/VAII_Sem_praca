@@ -1,0 +1,73 @@
+﻿@model Semestralna_praca_VAII.Models.Event
+
+@{
+    ViewData["Title"] = "EventDetail";
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">@Model.name </h1>
+        <img class="img-fluid " src="~/Assets/@Model.imgPath" style="height: 20rem;width: 60rem" alt="">
+        <p class="lead text-muted mb-0">@Model.description</p>
+        <h1 class="card-title pricing-card-title">@Model.price € <small class="text-muted">/ vstup</small></h1>
+        <div class="btn-group cart">
+            <button type="button" class="btn btn-success" (click)="Vloz($event,course)">
+                Vložiť do košíka
+            </button>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
+                    <p class="text-secondary text-center">Pred 15 minutami</p>
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <a class="float-left" href="#"><strong>Recenzent</strong></a>
+                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+                        <span class="float-right"><i class="text-warning fa fa-star"></i></span>
+
+                    </p>
+                    <div class="clearfix"></div>
+                    <p>Lorem Ipsum is simply dummy text of the pr make  but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    <p>
+                        <a class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Odpovedat</a>
+                        <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                    </p>
+                </div>
+            </div>
+            <div class="card card-inner">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
+                            <p class="text-secondary text-center">Pred 15 minutami</p>
+                        </div>
+                        <div class="col-md-10">
+                            <p><a href="#"><strong>Pouzivatel</strong></a></p>
+                            <p>Lorem Ipsum is simply dummy text of the pr make  but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p>
+                                <a class="float-right btn btn-outline-primary ml-2">  <i class="fa fa-reply"></i> Odpovedat</a>
+                                <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
