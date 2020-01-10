@@ -14,6 +14,14 @@
             <div class="clearfix"></div>
         </div>
         <div class="card-body">
+            @if (Model.eventList == null)
+            {
+                <div>
+                    <h1>Máte 0 položiek</h1>
+                </div>
+            }
+            else
+            {
             <!-- PRODUCT -->
             @foreach (var item in Model.eventList)
             {
@@ -46,6 +54,7 @@
                         </div>
                     </div>
                 </div>
+            }
             }
 
             <hr>

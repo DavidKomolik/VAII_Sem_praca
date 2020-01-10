@@ -10,8 +10,9 @@
         <img class="img-fluid " src="~/Assets/@Model.imgPath" style="height: 20rem;width: 60rem" alt="">
         <p class="lead text-muted mb-0">@Model.description</p>
         <h1 class="card-title pricing-card-title">@Model.price € <small class="text-muted">/ vstup</small></h1>
+        
         <div class="btn-group cart">
-            <button type="button" class="btn btn-success" (click)="Vloz($event,course)">
+            <button type="button" class="btn btn-success" asp-controller="Event" asp-route-id="@Model.ID" asp-action="Vloz" >
                 Vložiť do košíka
             </button>
         </div>
@@ -26,7 +27,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
-                    <p class="text-secondary text-center">Pred 15 minutami</p>
+                    <p class="text-secondary text-center">Pred 15 minútami</p>
                 </div>
                 <div class="col-md-10">
                     <p>
