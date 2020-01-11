@@ -1,23 +1,47 @@
 ﻿@model Semestralna_praca_VAII.Models.Event
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "EventDetail";
 }
 
-<section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">@Model.name </h1>
-        <img class="img-fluid " src="~/Assets/@Model.imgPath" style="height: 20rem;width: 60rem" alt="">
-        <p class="lead text-muted mb-0">@Model.description</p>
-        <h1 class="card-title pricing-card-title">@Model.price € <small class="text-muted">/ vstup</small></h1>
-        
-        <div class="btn-group cart">
-            <button type="button" class="btn btn-success" asp-controller="Event" asp-route-id="@Model.ID" asp-action="Vloz" >
-                Vložiť do košíka
-            </button>
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">@Model.name </h1>
+            <img class="img-fluid " src="~/Assets/@Model.imgPath" style="height: 20rem;width: 60rem" alt="">
+            <p class="lead text-muted mb-0">@Model.description</p>
+            <h1 class="card-title pricing-card-title">@Model.price € <small class="text-muted">/ vstup</small></h1>
+            @if (!User.IsInRole("Admin"))
+            {
+        <div class=" d-flex justify-content-center">
+                       <form method="post">
+                <div class="btn-group cart">
+                    @Html.HiddenFor(a => a.ID);
+                    @Html.TextBoxFor(a => a.price)
+                    <button asp-action="Price" formmethod="post" class="btn-dark" type="submit">Posli</button>
+                    @*<button asp-action="Price" asp-route-ID="@Model.ID" type="submit" formmethod="post" class="btn btn-outline-danger btn-xs"></button>*@
+                </div>
+            </form>
         </div>
-    </div>
-</section>
+            }
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="btn-group cart">
+                    <input type="button" class="btn btn-success" title="Vloz" value="Vložiť do košíka" onclick="location.href='@Url.Action("Vloz", "Event", new { id = @Model.ID })'" />
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h2>Pre pridanie produktu do košíka sa prihláste</h2>
+                </div>
+            }
+        </div>
+    </section>
+
 
 
 

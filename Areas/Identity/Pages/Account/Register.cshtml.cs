@@ -83,7 +83,6 @@ namespace Semestralna_praca_VAII.Areas.Identity.Pages.Account
                 user.userCart = new Cart();
                 user.shoppingHistory = new ShoppingHistory();
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
                     _context.SaveChanges();

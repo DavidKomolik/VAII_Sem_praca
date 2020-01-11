@@ -10,8 +10,8 @@ using Semestralna_praca_VAII.Data;
 namespace Semestralna_praca_VAII.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200109223550_zmenamena")]
-    partial class zmenamena
+    [Migration("20200111122306_peklo")]
+    partial class peklo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -252,7 +252,7 @@ namespace Semestralna_praca_VAII.Data.Migrations
                     b.Property<int?>("ShoppingHistoryID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("addedItemID")
+                    b.Property<int>("addedItemID")
                         .HasColumnType("int");
 
                     b.Property<int>("amount")
@@ -327,6 +327,16 @@ namespace Semestralna_praca_VAII.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<int?>("shoppingHistoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("userCartID")
+                        .HasColumnType("int");
+
+                    b.HasIndex("shoppingHistoryID");
+
+                    b.HasIndex("userCartID");
+
                     b.HasDiscriminator().HasValue("CommonUser");
                 });
 
@@ -393,7 +403,20 @@ namespace Semestralna_praca_VAII.Data.Migrations
 
                     b.HasOne("Semestralna_praca_VAII.Models.Event", "addedItem")
                         .WithMany()
-                        .HasForeignKey("addedItemID");
+                        .HasForeignKey("addedItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Semestralna_praca_VAII.Models.CommonUser", b =>
+                {
+                    b.HasOne("Semestralna_praca_VAII.Models.ShoppingHistory", "shoppingHistory")
+                        .WithMany()
+                        .HasForeignKey("shoppingHistoryID");
+
+                    b.HasOne("Semestralna_praca_VAII.Models.Cart", "userCart")
+                        .WithMany()
+                        .HasForeignKey("userCartID");
                 });
 #pragma warning restore 612, 618
         }

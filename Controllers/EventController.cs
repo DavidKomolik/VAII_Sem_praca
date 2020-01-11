@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Semestralna_praca_VAII.Data;
 
+
 namespace Semestralna_praca_VAII.Controllers
 {
     public class EventController : Controller
@@ -31,26 +32,45 @@ namespace Semestralna_praca_VAII.Controllers
         {
             //todo aby sa mi ukazalo vloz iba ked som prihlaseny
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            
+
             var user = _context.CommonUser.Include(b => b.userCart)
                                           .ThenInclude(c => c.eventList)
                                           .Where(a => a.Id == userId).FirstOrDefault();
 
             var Event = _context.Event.Where(a => a.ID == ID).FirstOrDefault();
-            var cartItem = new Models.CartItem
+            bool added = false;
+            for (int i = 0; i < user.userCart.eventList.Count; i++)
             {
-                addedItem = Event,
-                amount = 1,
-                price = Event.price
-            };
+                if (Event.ID == user.userCart.eventList[i].addedItemID)
+                {
+                    user.userCart.eventList[i].amount++;
+                    added = true;
+                }
+            } 
+            if(!added)
+            {
+                var cartItem = new Models.CartItem
+                            {
+                                addedItem = Event,
+                                amount = 1,
+                                price = Event.price,
+                                addedItemID = Event.ID
+                            };
+                user.userCart.eventList.Add(cartItem);
+            }
+            _context.SaveChanges();
 
-            user.userCart.eventList.Add(cartItem);
+            return RedirectToAction("Cart", "User", user.userCart);
+        }
+        [HttpPost]
+        public IActionResult Price(Models.Event e)
+        {
+            var eve =_context.Event.Where(a => a.ID == e.ID).FirstOrDefault();
+            eve.price = Convert.ToDouble(e.price);
 
             _context.SaveChanges();
 
-            return View();
+            return View("EventDetail",eve);
         }
-
-
     }
 }

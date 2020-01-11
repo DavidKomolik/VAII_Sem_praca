@@ -250,7 +250,7 @@ namespace Semestralna_praca_VAII.Data.Migrations
                     b.Property<int?>("ShoppingHistoryID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("addedItemID")
+                    b.Property<int>("addedItemID")
                         .HasColumnType("int");
 
                     b.Property<int>("amount")
@@ -401,7 +401,9 @@ namespace Semestralna_praca_VAII.Data.Migrations
 
                     b.HasOne("Semestralna_praca_VAII.Models.Event", "addedItem")
                         .WithMany()
-                        .HasForeignKey("addedItemID");
+                        .HasForeignKey("addedItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Semestralna_praca_VAII.Models.CommonUser", b =>

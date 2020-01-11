@@ -1,9 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>aspnet-Semestralna_praca_VAII-554DD17C-76FC-4137-BEBA-FC7356901ED9</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200111113945_fixpls2.cs" />
+    <Compile Remove="Data\Migrations\20200111113945_fixpls2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200111115309_ffs.cs" />
+    <Compile Remove="Data\Migrations\20200111115309_ffs.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200111115540_ffs2.cs" />
+    <Compile Remove="Data\Migrations\20200111115540_ffs2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200111120701_netusim3.cs" />
+    <Compile Remove="Data\Migrations\20200111120701_netusim3.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200111121542_pridanieCartIde.cs" />
+    <Compile Remove="Data\Migrations\20200111121542_pridanieCartIde.Designer.cs" />
+  </ItemGroup>
 
 
   <ItemGroup>
@@ -19,6 +32,11 @@
 
   <ItemGroup>
     <None Include="wwwroot\Assets\bazant.jpg" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Views\Checkout\" />
   </ItemGroup>
 
 </Project>

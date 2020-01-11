@@ -25,24 +25,68 @@ namespace Semestralna_praca_VAII.Controllers
 
             var user = _context.CommonUser.Include(b => b.userCart)
                                           .ThenInclude(c => c.eventList)
-                                          .Include(a => a.shoppingHistory)
-                                          .ThenInclude(c => c.purchases)
+                                          //.Include(a => a.shoppingHistory)
+                                          //.ThenInclude(c => c.purchases)
                                           .Where(a => a.Id == userId).FirstOrDefault();
-            if(user.userCart == null)
+            if (user.userCart == null)
             {
                 user.userCart = new Models.Cart();
                 user.userCart.eventList = new List<Models.CartItem>();
             }
-            
+
+            foreach (var item in user.userCart.eventList)
+            {
+                item.addedItem = _context.Event.Where(a => item.addedItemID == a.ID).FirstOrDefault();
+            } 
+
             return View(user.userCart);
         }
         public IActionResult getShoppingHistory(string ID)
         {
+
+            // OBSOLETE
             var shoppingHistory = _context.CommonUser.Include(a => a.shoppingHistory)
                                           .Where(a => a.Id == ID).FirstOrDefault().shoppingHistory;
             return View(shoppingHistory);
         }
+        [HttpPost]
+        public IActionResult Delete(Models.Cart c, int cart, int id)
+        {
+            var realCart = _context.Cart.Include(a => a.eventList)
+                .Where(a => a.ID == cart).FirstOrDefault();
 
+            int i = 0;
+            foreach (var item in realCart.eventList)
+            {
+                if (item.ID == id)
+                {
+                    _context.CartItem.Remove(item);
+                    break;
+                }
+                i++;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Cart");
+        }
+        [HttpGet]
+        public IActionResult Checkout(int ID)
+        {
+            if (ID == 0)
+            {
+                return View();
+            }
+
+            var realCart = _context.Cart.Include(a => a.eventList)
+               .Where(a => a.ID == ID).FirstOrDefault();
+
+            foreach (var item in realCart.eventList)
+            {
+                item.addedItem = _context.Event.Where(a => item.addedItemID == a.ID).FirstOrDefault();
+            }
+            return View(realCart);
+        }
     }
-
 }
+
+
+
