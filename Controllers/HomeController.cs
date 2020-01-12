@@ -41,6 +41,16 @@ namespace Semestralna_praca_VAII.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<string> list = new List<string>();
+
+            var eventList = _context.Event.OrderByDescending(a => a.isFeatured).ToList();
+
+            return Json(eventList);
+        }
+
+
     }
 }

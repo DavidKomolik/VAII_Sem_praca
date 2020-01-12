@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Semestralna_praca_VAII.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Semestralna_praca_VAII.Controllers
 {
@@ -14,32 +15,42 @@ namespace Semestralna_praca_VAII.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public UserController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _signInManager = signInManager;
         }
         public IActionResult Cart()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            var user = _context.CommonUser.Include(b => b.userCart)
-                                          .ThenInclude(c => c.eventList)
-                                          //.Include(a => a.shoppingHistory)
-                                          //.ThenInclude(c => c.purchases)
-                                          .Where(a => a.Id == userId).FirstOrDefault();
-            if (user.userCart == null)
+            if (_signInManager.IsSignedIn(User))
             {
-                user.userCart = new Models.Cart();
-                user.userCart.eventList = new List<Models.CartItem>();
+
+
+                var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                var user = _context.CommonUser.Include(b => b.userCart)
+                                              .ThenInclude(c => c.eventList)
+                                              //.Include(a => a.shoppingHistory)
+                                              //.ThenInclude(c => c.purchases)
+                                              .Where(a => a.Id == userId).FirstOrDefault();
+                if (user.userCart == null)
+                {
+                    user.userCart = new Models.Cart();
+                    user.userCart.eventList = new List<Models.CartItem>();
+                }
+
+                foreach (var item in user.userCart.eventList)
+                {
+                    item.addedItem = _context.Event.Where(a => item.addedItemID == a.ID).FirstOrDefault();
+                }
+
+                return View(user.userCart);
+            } else
+            {
+                return RedirectToAction("Index", "Home");
             }
-
-            foreach (var item in user.userCart.eventList)
-            {
-                item.addedItem = _context.Event.Where(a => item.addedItemID == a.ID).FirstOrDefault();
-            } 
-
-            return View(user.userCart);
         }
         public IActionResult getShoppingHistory(string ID)
         {

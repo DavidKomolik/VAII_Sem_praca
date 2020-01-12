@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "Checkout";
+    ViewData["Title"] = "Zhrnutie";
 }
 
 <body class="bg-light">
@@ -15,7 +15,7 @@
         @{ int pocet = 0;}
         @foreach (var item in Model.eventList)
         {
-            { pocet = pocet + item.amount ;}
+            { pocet = pocet + item.amount; }
 
         }
         <div class="row">
@@ -52,105 +52,99 @@
                 <form class="needs-validation" novalidate="">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="firstName">First name</label>
+                            <label for="firstName">Meno</label>
                             <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
                             <div class="invalid-feedback">
-                                Valid first name is required.
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="lastName">Last name</label>
+                            <label for="lastName">Priezvisko</label>
                             <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
                             <div class="invalid-feedback">
-                                Valid last name is required.
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="username">Username</label>
+                        <label for="username">Prihlasovacie meno</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"></span>
                             </div>
-                            <input type="text" class="form-control" id="username" placeholder="Username" required="">
+                            <input type="text" class="form-control" id="username" placeholder="Prihlasovacie meno" required="">
                             <div class="invalid-feedback" style="width: 100%;">
-                                Your username is required.
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        <label for="email">Email <span class="text-muted">(Voliteľné)</span></label>
+                        <input type="email" class="form-control" id="email" onchange="validate()" placeholder="tvojLogin@azet.sk">
+                        <h5 id='result'></h5>
                         <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                        <label for="address">Addresa</label>
+                        <input type="text" class="form-control" id="address" placeholder="Sládkovičova 34" required="">
                         <div class="invalid-feedback">
-                            Please enter your shipping address.
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                        <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                        <label for="address2">Addresa 2 <span class="text-muted">(Voliteľné)</span></label>
+                        <input type="text" class="form-control" id="address2" placeholder="Číslo izby (voliteľné)">
                     </div>
 
                     <div class="row">
                         <div class="col-md-5 mb-3">
-                            <label for="country">Country</label>
+                            <label for="country">Krajina</label>
                             <select class="custom-select d-block w-100" id="country" required="">
-                                <option value="">Choose...</option>
-                                <option>United States</option>
+                                <option value="">Vyberte krajinu...</option>
+                                <option>Slovensko</option>
+                                <option>Česko</option>
                             </select>
                             <div class="invalid-feedback">
-                                Please select a valid country.
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="state">State</label>
+                            <label for="state">Kraj</label>
                             <select class="custom-select d-block w-100" id="state" required="">
-                                <option value="">Choose...</option>
-                                <option>California</option>
+                                <option value="">Vyberte kraj...</option>
+                                <option>Žilinský</option>
                             </select>
                             <div class="invalid-feedback">
-                                Please provide a valid state.
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="zip">Zip</label>
+                            <label for="zip">PSČ</label>
                             <input type="text" class="form-control" id="zip" placeholder="" required="">
                             <div class="invalid-feedback">
-                                Zip code required.
                             </div>
                         </div>
                     </div>
                     <hr class="mb-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="same-address">
-                        <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                        <label class="custom-control-label" for="same-address">Adresa odosielateľa je rovnaká ako fakturačná</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="save-info">
-                        <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                        <label class="custom-control-label" for="save-info">Uložiť informácie do budúcna</label>
                     </div>
                     <hr class="mb-4">
 
-                    <h4 class="mb-3">Payment</h4>
+                    <h4 class="mb-3">Platba</h4>
 
                     <div class="d-block my-3">
                         <div class="custom-control custom-radio">
                             <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
-                            <label class="custom-control-label" for="credit">Credit card</label>
+                            <label class="custom-control-label" for="credit">Kreditná karta</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
-                            <label class="custom-control-label" for="debit">Debit card</label>
+                            <label class="custom-control-label" for="debit">Debetná karta</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
@@ -160,34 +154,30 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="cc-name">Name on card</label>
+                            <label for="cc-name">Meno a priezvisko na karte</label>
                             <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                            <small class="text-muted">Full name as displayed on card</small>
+                            <small class="text-muted">V rovnakom tvare ako na karte</small>
                             <div class="invalid-feedback">
-                                Name on card is required
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="cc-number">Credit card number</label>
+                            <label for="cc-number">Číslo kreditnej karty</label>
                             <input type="text" class="form-control" id="cc-number" placeholder="" required="">
                             <div class="invalid-feedback">
-                                Credit card number is required
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiration</label>
+                            <label for="cc-expiration">Dátum expirácie</label>
                             <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
                             <div class="invalid-feedback">
-                                Expiration date required
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="cc-cvv">CVV</label>
                             <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
                             <div class="invalid-feedback">
-                                Security code required
                             </div>
                         </div>
                     </div>
@@ -196,8 +186,38 @@
                 </form>
             </div>
         </div>
-
     </div>
+        <script>
+
+   function validateEmail(email) {
+       var re = /^(([^<>()[\]\\.,;:\s@("@")\"]+(\.[^<>()[\]\\.,;:\s@("@")\"]+)*)|(\".+\"))@("@")((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+       return re.test(email);
+}
+
+function validate() {
+    var $result = $("#result");
+    console.log(result);
+    var email = $("#email").val();
+    console.log(email);
+    $result.text("");
+
+    if (validateEmail(email)) {
+      console.log("Validacia prebehla uspesne");
+    $result.text(email + " je valídna");
+    $result.css("color", "green");
+    } else {
+        console.log("Validacia neuspesna");
+    $result.text(email + " nie je valídna");
+    $result.css("color", "red");
+  }
+  return false;
+}
+
+$("#validate").on("click", validate);
+        </script>
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>

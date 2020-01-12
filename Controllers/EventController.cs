@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Semestralna_praca_VAII.Data;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace Semestralna_praca_VAII.Controllers
 {
@@ -15,11 +15,13 @@ namespace Semestralna_praca_VAII.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public EventController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public EventController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _signInManager = signInManager;
         }
 
         public IActionResult EventDetail(int ID)
@@ -30,7 +32,6 @@ namespace Semestralna_praca_VAII.Controllers
 
         public IActionResult Vloz(int ID)
         {
-            //todo aby sa mi ukazalo vloz iba ked som prihlaseny
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var user = _context.CommonUser.Include(b => b.userCart)
@@ -66,11 +67,18 @@ namespace Semestralna_praca_VAII.Controllers
         public IActionResult Price(Models.Event e)
         {
             var eve =_context.Event.Where(a => a.ID == e.ID).FirstOrDefault();
-            eve.price = Convert.ToDouble(e.price);
 
-            _context.SaveChanges();
+            if (User.IsInRole("Admin"))
+            {
+                eve.price = Convert.ToDouble(e.price);
 
+                _context.SaveChanges();
+            }
             return View("EventDetail",eve);
         }
+
+
+
+
     }
 }
