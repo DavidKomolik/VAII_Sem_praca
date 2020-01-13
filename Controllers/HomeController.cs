@@ -46,11 +46,18 @@ namespace Semestralna_praca_VAII.Controllers
         {
             List<string> list = new List<string>();
 
-            var eventList = _context.Event.OrderByDescending(a => a.isFeatured).ToList();
+             var eventList = _context.Event.OrderByDescending(a => a.isFeatured).ToList();
 
             return Json(eventList);
         }
 
+        [HttpGet]
+        public IActionResult GetLogin()
+        {
+            var login = User.Identity.Name;
+
+            return Json(login);
+        }
 
     }
 }
